@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echoes of Silence</title>
+  <meta name="description" content="Terror psicológico interactivo — decisiones bajo presión" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁️</text></svg>" />
+  <script type="module" crossorigin src="./assets/index-DzSGpAY8.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-2z2d5q8t.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- Noise overlay -->
+    <div id="noise-overlay"></div>
+    <!-- Vignette -->
+    <div id="vignette"></div>
+    <!-- Flash effect -->
+    <div id="flash-overlay"></div>
+    <!-- Glitch layer -->
+    <div id="glitch-layer"></div>
+
+    <!-- Timer bar -->
+    <div id="timer-container" class="hidden">
+      <div id="timer-bar"></div>
+    </div>
+
+    <!-- Main menu -->
+    <div id="menu-screen" class="screen active">
+      <div class="menu-content">
+        <h1 class="game-title">
+          <span class="title-eye">👁️</span>
+          <span class="title-main">ECHOES OF SILENCE</span>
+        </h1>
+        <p class="tagline">No confíes en el silencio.</p>
+        <div class="menu-buttons">
+          <button id="btn-new-game" class="menu-btn">Nueva partida</button>
+          <button id="btn-continue" class="menu-btn" style="display:none;">Continuar</button>
+          <button id="btn-endings" class="menu-btn secondary">Finales desbloqueados</button>
+          <button id="btn-delete" class="menu-btn danger" style="display:none;">Borrar progreso</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game screen -->
+    <div id="game-screen" class="screen">
+      <div id="narrative-container">
+        <div id="narrative-text"></div>
+      </div>
+      <div id="choices-container"></div>
+    </div>
+
+    <!-- Ending screen -->
+    <div id="ending-screen" class="screen">
+      <div class="ending-content">
+        <div class="ending-icon">👁️</div>
+        <h2 id="ending-title"></h2>
+        <p id="ending-type-label"></p>
+        <div id="ending-text"></div>
+        <div class="ending-buttons">
+          <button id="btn-restart" class="menu-btn">Volver al inicio</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Endings gallery -->
+    <div id="endings-screen" class="screen">
+      <div class="endings-gallery">
+        <h2>Finales Desbloqueados</h2>
+        <div id="endings-list"></div>
+        <button id="btn-back-menu" class="menu-btn secondary">Volver</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
