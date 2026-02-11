@@ -768,6 +768,69 @@ body.high-paranoia .choice-btn {
   }
 }
 
+/* --- Narration Toggle --- */
+.corner-btn {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 1002;
+  background: rgba(15, 15, 15, 0.9);
+  border: 1px solid var(--text-dim);
+  color: var(--text-secondary);
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all var(--transition-medium);
+  opacity: 0.7;
+}
+
+.corner-btn:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+  opacity: 1;
+  background: rgba(25, 25, 25, 0.95);
+}
+
+.corner-btn.active {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+.corner-btn.active .narration-svg {
+  filter: drop-shadow(0 0 4px rgba(200, 200, 200, 0.4));
+}
+
+.corner-btn.active .narration-status {
+  color: var(--text-primary);
+}
+
+.narration-svg {
+  flex-shrink: 0;
+}
+
+.narration-label {
+  display: none;
+}
+
+.narration-status {
+  color: var(--text-dim);
+  font-size: 0.6rem;
+}
+
+@media (min-width: 481px) {
+  .narration-label {
+    display: inline;
+  }
+}
+
 /* --- Selection --- */
 ::selection {
   background: rgba(107, 26, 26, 0.4);

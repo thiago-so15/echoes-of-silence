@@ -18,6 +18,7 @@ There are no jump scares. There is no gore. Just silence, tension, and the growi
 - **6 distinct endings** (bad, neutral, disturbing, ambiguous)
 - **Timed decisions** that force you to act under pressure
 - **Hidden psychological variables** that alter the story without your knowledge
+- **Voice narration** — optional text-to-speech that reads each scene aloud
 - **No backend, no accounts, no external services** — runs entirely in the browser
 
 ## How to Play
@@ -59,6 +60,7 @@ The endings gallery tracks which ones you've unlocked across playthroughs.
 | Language | Vanilla JavaScript (ES modules) |
 | Styling | CSS with custom properties |
 | Audio | Web Audio API (generated at runtime, no audio files) |
+| Voice narration | Web Speech API (browser-native TTS) |
 | Persistence | localStorage |
 | External dependencies | None at runtime |
 
@@ -74,6 +76,7 @@ src/
 ├── renderer.js      Typewriter effect, UI rendering, visual effects
 ├── timer.js         Countdown system for timed decisions
 ├── audio.js         Web Audio API sound generation
+├── speech.js        Voice narration via Web Speech API
 ├── save.js          localStorage save/load and endings registry
 └── style.css        Dark atmospheric UI with animations
 ```
@@ -102,11 +105,12 @@ Open `http://localhost:5173` in your browser.
 - **Slow discomfort over shock** — animations are deliberate, transitions are uneasy
 - **The interface reflects your state** — as fear rises, the screen darkens; as sanity drops, colors drain and text shivers
 - **Sound is generated, not loaded** — low drones, heartbeats, and distorted tones created with oscillators and noise buffers
+- **Voice narration is optional** — toggle it from the bottom-right corner; uses the browser's built-in Speech API with a slow, low-pitched Spanish voice for atmosphere
 - **Time pressure is psychological** — the timer bar drains, the screen flickers, a heartbeat plays, and you have to decide *now*
 
 ## Browser Support
 
-Works in any modern browser with ES module and Web Audio API support (Chrome, Firefox, Safari, Edge).
+Works in any modern browser with ES module, Web Audio API, and Speech Synthesis support (Chrome, Firefox, Safari, Edge). Voice narration quality depends on the Spanish TTS voices available on your system.
 
 ## License
 

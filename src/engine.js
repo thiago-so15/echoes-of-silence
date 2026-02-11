@@ -14,6 +14,7 @@ import {
   renderChoices, clearChoices, showScreen, flashScreen, glitchEffect,
   setAtmosphere, transitionScene, renderEndingsGallery, renderEnding
 } from './renderer.js';
+import { initSpeech, toggleSpeech, isSpeechEnabled, speak, stopSpeech, isSpeechAvailable } from './speech.js';
 
 let state = {
   currentScene: 'inicio',
@@ -29,6 +30,7 @@ let currentFullText = '';
 export function initEngine() {
   setupMenuButtons();
   setupKeyboardShortcuts();
+  setupNarrationToggle();
   showScreen('menu-screen');
 
   // Show/hide continue and delete buttons
@@ -36,6 +38,9 @@ export function initEngine() {
     document.getElementById('btn-continue').style.display = '';
     document.getElementById('btn-delete').style.display = '';
   }
+
+  // Init speech voices
+  initSpeech();
 }
 
 function setupMenuButtons() {
@@ -64,6 +69,7 @@ function setupMenuButtons() {
   });
 
   document.getElementById('btn-restart').addEventListener('click', () => {
+    stopSpeech();
     deleteSave();
     showScreen('menu-screen');
     document.getElementById('btn-continue').style.display = 'none';
@@ -73,6 +79,22 @@ function setupMenuButtons() {
 
   document.getElementById('btn-back-menu').addEventListener('click', () => {
     showScreen('menu-screen');
+    playClick();
+  });
+}
+
+function setupNarrationToggle() {
+  const btn = document.getElementById('btn-narration');
+  if (!isSpeechAvailable()) {
+    btn.style.display = 'none';
+    return;
+  }
+  btn.addEventListener('click', () => {
+    const nowEnabled = toggleSpeech();
+    const status = btn.querySelector('.narration-status');
+    status.textContent = nowEnabled ? 'ON' : 'OFF';
+    btn.classList.toggle('active', nowEnabled);
+    btn.title = nowEnabled ? 'Narración activada' : 'Narración desactivada';
     playClick();
   });
 }
@@ -183,6 +205,9 @@ function loadScene(sceneId) {
       showChoices(scene);
     });
 
+    // Narrate the scene text
+    speak(text);
+
     // Start timer AFTER transition completes (inside callback)
     if (scene.timeLimit) {
       startSceneTimer(scene);
@@ -224,6 +249,7 @@ function showChoices(scene) {
 function handleChoice(choice) {
   playClick();
   clearTimer();
+  stopSpeech();
 
   // Apply effects
   if (choice.effects) {
@@ -350,6 +376,10 @@ function handleEnding(scene) {
   setTimeout(() => {
     showScreen('ending-screen');
     renderEnding(scene, state.variables);
+
+    // Narrate the ending
+    const endingText = typeof scene.getText === 'function' ? scene.getText(state.variables) : scene.getText;
+    speak(endingText);
   }, 1200);
 }
 
