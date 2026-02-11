@@ -242,6 +242,9 @@ export const SCENES = {
 
   nota: {
     id: 'nota',
+    timeLimit: 20,
+    timerHidden: true,
+    timeoutScene: 'telefono_suena',
     getText: (v) =>
       `La nota dice:\n\n"Si estás leyendo esto, ya ha empezado. No abras la puerta principal. No importa lo que escuches. No importa quién llame.\n\nLo que hay fuera no es real. O lo que hay dentro no es real. Ya no estoy seguro.\n\nNo confíes en el silencio. El silencio es donde se esconde."\n\n${v.paranoia > 25 ? 'La letra se vuelve más errática al final, como si hubieras escrito con la mano temblando.' : 'Reconoces tu letra, pero no recuerdas haber escrito esto.'}\n\nLa nota no tiene fecha.`,
     choices: [
@@ -610,6 +613,9 @@ export const SCENES = {
 
   decision_crucial: {
     id: 'decision_crucial',
+    timeLimit: 25,
+    timerHidden: true,
+    timeoutScene: 'figura',
     getText: (v) => {
       let text = `Estás de pie en el centro de tu apartamento. El silencio pulsa a tu alrededor como un corazón enorme.\n\n`;
       if (v.trauma > 20) {

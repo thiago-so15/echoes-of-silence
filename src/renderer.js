@@ -125,7 +125,15 @@ export function renderChoices(choices, onChoose) {
       const btn = document.createElement('button');
       btn.className = 'choice-btn';
       btn.textContent = choice.text;
-      btn.style.animationDelay = `${index * 0.15}s`;
+
+      // Stagger appearance via JS (reliable across browsers)
+      btn.style.opacity = '0';
+      btn.style.transform = 'translateX(-10px)';
+      setTimeout(() => {
+        btn.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateX(0)';
+      }, index * 120);
 
       btn.addEventListener('click', () => {
         // Disable all buttons
@@ -204,14 +212,19 @@ export function setAtmosphere(variables) {
 }
 
 export function transitionScene(callback) {
-  const gameScreen = document.getElementById('game-screen');
-  gameScreen.classList.add('scene-transition');
+  const narrativeText = document.getElementById('narrative-text');
+
+  // Fade out current text
+  narrativeText.style.opacity = '0';
 
   setTimeout(() => {
+    // Clear and run callback (typewriter starts)
     callback();
+
+    // Fade in new text
     setTimeout(() => {
-      gameScreen.classList.remove('scene-transition');
-    }, 600);
+      narrativeText.style.opacity = '1';
+    }, 50);
   }, 400);
 }
 
@@ -232,13 +245,11 @@ export function renderEndingsGallery(unlockedEndings, allEndings, total) {
 
     if (unlocked) {
       card.innerHTML = `
-        <div class="ending-card-type ending-type-${info.type}">${info.type.toUpperCase()}</div>
         <h3>${info.title}</h3>
         <p class="ending-card-hint">${info.hint}</p>
       `;
     } else {
       card.innerHTML = `
-        <div class="ending-card-type">???</div>
         <h3>???</h3>
         <p class="ending-card-hint">Final no descubierto</p>
       `;
@@ -258,24 +269,40 @@ export function renderEndingsGallery(unlockedEndings, allEndings, total) {
  * Render ending screen
  */
 export function renderEnding(scene, variables = {}) {
+  const content = document.querySelector('.ending-content');
   const title = document.getElementById('ending-title');
   const typeLabel = document.getElementById('ending-type-label');
   const text = document.getElementById('ending-text');
+  const buttons = content.querySelector('.ending-buttons');
+
+  // Reset all children to hidden
+  content.querySelectorAll(':scope > *').forEach((el) => {
+    el.classList.remove('visible');
+  });
 
   title.textContent = scene.endingTitle;
-
-  const typeMap = {
-    malo: 'FINAL MALO',
-    neutro: 'FINAL NEUTRO',
-    perturbador: 'FINAL PERTURBADOR',
-    ambiguo: 'FINAL AMBIGUO',
-  };
-
-  typeLabel.textContent = typeMap[scene.endingType] || 'FINAL';
-  typeLabel.className = `ending-type-badge ending-type-${scene.endingType}`;
-
-  // Typewrite the ending text
-  const endingContent = typeof scene.getText === 'function' ? scene.getText(variables) : scene.getText;
+  typeLabel.textContent = 'FIN';
+  typeLabel.className = 'ending-type-badge';
   text.innerHTML = '';
-  return typewriteText(text, endingContent, 40);
+
+  // Stagger reveal of ending elements via JS
+  const elements = [
+    content.querySelector('.ending-icon'),
+    title,
+    typeLabel,
+    text,
+    buttons,
+  ];
+
+  elements.forEach((el, i) => {
+    if (el) {
+      setTimeout(() => el.classList.add('visible'), 500 + i * 600);
+    }
+  });
+
+  // Typewrite the ending text after its container becomes visible
+  const endingContent = typeof scene.getText === 'function' ? scene.getText(variables) : scene.getText;
+  setTimeout(() => {
+    typewriteText(text, endingContent, 40);
+  }, 500 + 3 * 600);
 }

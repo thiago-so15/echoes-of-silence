@@ -9,19 +9,21 @@ let total = 0;
 let onTimeoutCallback = null;
 let onTickCallback = null;
 
-export function startTimer(seconds, onTimeout, onTick) {
+export function startTimer(seconds, onTimeout, onTick, hidden = false) {
   clearTimer();
   total = seconds;
   remaining = seconds;
   onTimeoutCallback = onTimeout;
   onTickCallback = onTick;
 
-  // Show timer UI
+  // Show timer UI only if not hidden
   const container = document.getElementById('timer-container');
   const bar = document.getElementById('timer-bar');
-  container.classList.remove('hidden');
-  bar.style.width = '100%';
-  bar.classList.remove('warning', 'critical');
+  if (!hidden) {
+    container.classList.remove('hidden');
+    bar.style.width = '100%';
+    bar.classList.remove('warning', 'critical');
+  }
 
   const startTime = Date.now();
 

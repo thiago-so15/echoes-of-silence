@@ -294,6 +294,7 @@ function handleChoice(choice) {
 function startSceneTimer(scene) {
   const warningPlayed = { done: false };
   let lastHeartbeat = 0;
+  const hidden = !!scene.timerHidden;
 
   startTimer(
     scene.timeLimit,
@@ -301,7 +302,7 @@ function startSceneTimer(scene) {
     () => {
       flashScreen('rgba(139, 0, 0, 0.4)', 300);
       glitchEffect(500);
-      playWarning();
+      if (!hidden) playWarning();
 
       // Find timeout default choice or go to timeout scene
       if (scene.timeoutScene) {
@@ -327,6 +328,9 @@ function startSceneTimer(scene) {
     },
     // On tick
     (remaining, total) => {
+      // Hidden timers: no visual/audio feedback until the very end
+      if (hidden) return;
+
       const pct = remaining / total;
       const now = Date.now();
 
@@ -354,7 +358,8 @@ function startSceneTimer(scene) {
       if (pct < 0.15 && Math.random() < 0.08) {
         glitchEffect(100);
       }
-    }
+    },
+    hidden
   );
 }
 

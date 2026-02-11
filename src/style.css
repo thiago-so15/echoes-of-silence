@@ -380,24 +380,13 @@ body {
 
 #narrative-text {
   min-height: 200px;
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
 #narrative-text p {
   margin-bottom: 1.2em;
-  opacity: 0;
-  animation: fadeInParagraph 0.8s ease forwards;
   text-indent: 0;
-}
-
-@keyframes fadeInParagraph {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Cursor blink during typing */
@@ -441,17 +430,7 @@ body {
   text-align: left;
   transition: all 0.3s ease;
   position: relative;
-  opacity: 0;
-  transform: translateX(-10px);
-  animation: choiceSlideIn 0.5s ease forwards;
   line-height: 1.5;
-}
-
-@keyframes choiceSlideIn {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
 }
 
 .choice-btn::before {
@@ -492,16 +471,6 @@ body {
   pointer-events: none;
 }
 
-/* --- Scene Transition --- */
-#game-screen.scene-transition #narrative-text {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-#game-screen.scene-transition #choices-container {
-  opacity: 0;
-}
-
 /* --- Flicker Effect (high stress) --- */
 #game-screen.flicker {
   animation: screenFlicker 0.1s steps(1) forwards;
@@ -538,7 +507,7 @@ body.low-sanity #narrative-text {
 }
 
 body.low-sanity #narrative-text p {
-  animation: fadeInParagraph 0.8s ease forwards, textWaver 6s ease-in-out infinite;
+  animation: textWaver 6s ease-in-out infinite;
 }
 
 @keyframes textWaver {
@@ -567,8 +536,6 @@ body.high-paranoia .choice-btn {
 .ending-icon {
   font-size: 3rem;
   margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: endingFadeIn 2s ease 0.5s forwards;
   filter: grayscale(0.8);
 }
 
@@ -579,8 +546,6 @@ body.high-paranoia .choice-btn {
   text-transform: uppercase;
   color: var(--text-primary);
   margin-bottom: 0.8rem;
-  opacity: 0;
-  animation: endingFadeIn 2s ease 1s forwards;
 }
 
 .ending-type-badge {
@@ -588,43 +553,33 @@ body.high-paranoia .choice-btn {
   font-size: 0.7rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
+  color: var(--text-dim);
   margin-bottom: 2rem;
-  opacity: 0;
-  animation: endingFadeIn 2s ease 1.3s forwards;
 }
-
-.ending-type-malo { color: var(--accent-red-bright); }
-.ending-type-neutro { color: var(--text-secondary); }
-.ending-type-perturbador { color: #6a4a8a; }
-.ending-type-ambiguo { color: var(--accent-warm); }
 
 #ending-text {
   margin: 2rem 0 3rem;
   text-align: left;
-  opacity: 0;
-  animation: endingFadeIn 2s ease 1.5s forwards;
 }
 
 #ending-text p {
   margin-bottom: 1.2em;
-  opacity: 0;
-  animation: fadeInParagraph 0.8s ease forwards;
-}
-
-@keyframes endingFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .ending-buttons {
+  margin-top: 1rem;
+}
+
+/* Ending elements fade in via JS — staggered */
+.ending-content > * {
   opacity: 0;
-  animation: endingFadeIn 2s ease 3s forwards;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.ending-content > *.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* --- Endings Gallery --- */
